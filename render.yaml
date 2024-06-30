@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: social-book
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn social_book.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: social_book.settings
+      - key: SECRET_KEY
+        value: '!cg0eg%$x23r2)0%ifhfj9!m%c6#83b$&0xb+*ygn)w6ao&o3i'
+    staticPublishPath: staticfiles
+    postDeploy:
+      - python manage.py migrate
+      - python manage.py collectstatic --noinput
